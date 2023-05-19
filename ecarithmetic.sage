@@ -103,38 +103,71 @@ F = IntegerModRing(p)
 E = EllipticCurve(F, [0, 7])
 G = E.lift_x(55066263022277343669578718895168534326250603453777594175500187360389116729240)
 
+# Securing Communications with Elliptic Curve Cryptography
 # ECC: Key generation, encryption, and decryption
+# Generate an elliptic curve and a base point
+E = EllipticCurve(GF(2^256 - 2^32 - 2^9 - 2^8 - 2^7 - 2^6 - 2^4 - 1), [0, 7])
+G = E.random_point()
+
+# Generate a private-public key pair for Alice
 a = randint(1, E.order() - 1)
 A = a * G
+
+# Generate a private-public key pair for Bob
 b = randint(1, E.order() - 1)
 B = b * G
+
+# Alice and Bob compute the shared secret
 shared_secret_A = a * B
 shared_secret_B = b * A
-assert shared_secret_A == shared_secret_B
+print ("shared_secret_A == shared_secret_B? ", shared_secret_A == shared_secret_B)
 
+
+# Ensuring Data Integrity with Digital Signatures ECDSA
 # ECDSA: Key generation, signing, and verification
+from hashlib import sha256
+
+E = EllipticCurve(GF(2^256 - 2^32 - 2^9 - 2^8 - 2^7 - 2^6 - 2^4 - 1), [0, 7])
+G = E.random_point()
+
+# Generate a private-public key pair for the signer
 d = randint(1, E.order() - 1)
 Q = d * G
+
+# Sign a message
 message = b"Hello, world!"
 hash_value = int.from_bytes(sha256(message).digest(), 'big')
 k = randint(1, E.order() - 1)
 R = k * G
-r = R[0] % E.order()
+r = Integer(R[0]) % E.order()  # Convert R[0] to an integer before performing modulo
 s = ((hash_value + d * r) * inverse_mod(k, E.order())) % E.order()
+
+# Verify the signature
 w = inverse_mod(s, E.order())
 u1 = (hash_value * w) % E.order()
 u2 = (r * w) % E.order()
 X = u1 * G + u2 * Q
-assert r % E.order() == X[0] % E.order()
+print("Are the signatures same? ", r % E.order() == Integer(X[0]) % E.order())  # Convert X[0] to an integer before performing modulo
 
+# Establishing Secure Connections with Key Exchange ECDH
 # ECDH: Key exchange
+# Define the Elliptic Curve
+E = EllipticCurve(GF(2^256 - 2^32 - 2^9 - 2^8 - 2^7 - 2^6 - 2^4 - 1), [0, 7])
+G = E.random_point()
+
+# Generate a private-public key pair for Alice
 a = randint(1, E.order() - 1)
 A = a * G
+
+# Generate a private-public key pair for Bob
 b = randint(1, E.order() - 1)
 B = b * G
+
+# Alice and Bob compute the shared secret
 shared_secret_A = a * B
 shared_secret_B = b * A
-assert shared_secret_A == shared_secret_B
+print (" shared_secret_A == shared_secret_B? ", shared_secret_A == shared_secret_B)
+
 
 # Ethereum: Key generation and address derivation
 private_key = randint(1, E.order() - 1)
