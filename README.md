@@ -4,7 +4,7 @@ Elliptic curves are a fascinating area of mathematics that have found numerous a
 
 In this blog post, we aim to provide a comprehensive introduction to elliptic curve arithmetic and its applications in cryptography. We will explore the basics of elliptic curves, delve into the arithmetic operations performed on them, and demonstrate how to work with elliptic curves using the powerful SageMath software. By the end of this post, you will have a solid understanding of the fundamentals of elliptic curve arithmetic and be well-equipped to explore more advanced topics in ECC.
 
-You can read the full technical report at .
+You can read the full technical report at [thogiti.github.io/](https://thogiti.github.io/mastering-elliptic-curve-arithmetic-a-comprehensive-guide-with-sagemath-examples/#introduction-demystifying-elliptic-curves-and-their-applications).
 
 The full code from the above technical report can be found here [github.com/thogiti](https://github.com/thogiti/Elliptic-curve-arithmetic-sage/blob/main/ecarithmetic.sage).
 
