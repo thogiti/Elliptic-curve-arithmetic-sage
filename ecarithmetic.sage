@@ -97,11 +97,6 @@ E = EllipticCurve(F, [0, 7])
 points = E.points()
 print(points)
 
-# Define the secp256k1 elliptic curve
-p = 2^256 - 2^32 - 977
-F = IntegerModRing(p)
-E = EllipticCurve(F, [0, 7])
-G = E.lift_x(55066263022277343669578718895168534326250603453777594175500187360389116729240)
 
 # Securing Communications with Elliptic Curve Cryptography
 # ECC: Key generation, encryption, and decryption
@@ -170,15 +165,32 @@ print (" shared_secret_A == shared_secret_B? ", shared_secret_A == shared_secret
 
 
 # Ethereum: Key generation and address derivation
+from hashlib import sha256
+
+# Define the secp256k1 elliptic curve
+p = 2^256 - 2^32 - 977
+E = EllipticCurve(GF(p), [0, 7])
+G = E.lift_x(55066263022277343669578718895168534326250603453777594175500187360389116729240)
+
+# Generate a private-public key pair for an Ethereum user
 private_key = randint(1, E.order() - 1)
 public_key = private_key * G
+
+# Ethereum address generation (simplified)
 address = sha256(str(public_key).encode()).hexdigest()[-40:]
-print("Ethereum address:", address)
+print("Ethereum address:", "0x"+address)
+
 
 # Plonk: KZG commitment example
+p = 2^256 - 2^32 - 977
+E = EllipticCurve(GF(p), [0, 7])
+G = E.lift_x(55066263022277343669578718895168534326250603453777594175500187360389116729240)
+
+# Generate a KZG commitment to a polynomial
 def kzg_commit(poly_coeffs, G):
     return sum(coeff * (G * i) for i, coeff in enumerate(poly_coeffs))
 
+# Example polynomial and its commitment
 poly_coeffs = [1, 2, 3, 4]
 C = kzg_commit(poly_coeffs, G)
-
+print(C)
