@@ -74,6 +74,22 @@ P2 = E.random_point()
 multiscalar_result = n1 * P1 + n2 * P2
 print("multiscalar_result ",multiscalar_result)
 
+# Executing multiscalar multiplication in SageMath
+p = 13
+F = IntegerModRing(p)
+E = EllipticCurve(F, [0, 7])
+
+points = [E.random_element() for _ in range(5)]
+scalars = [randint(1, E.order() - 1) for _ in range(5)]
+
+R = E(0)  # Initialize R as the identity element of the elliptic curve group
+for i in range(len(points)):
+    R += scalars[i] * points[i]
+print (" Multiscalar Multipliciation: ", R)
+R = sum(scalars[i] * points[i] for i in range(len(points)))
+print (" Multiscalar Multipliciation: ", R)
+
+
 # Find points on an elliptic curve
 p = 13
 F = IntegerModRing(p)
